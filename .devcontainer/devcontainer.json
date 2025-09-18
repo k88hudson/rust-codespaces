@@ -1,0 +1,30 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "FOLDER_BASENAME": "${localWorkspaceFolderBasename}"
+    }
+  },
+  "forwardPorts": [7777],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "biome.suggestInstallingGlobally": false,
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true,
+        "workbench.colorTheme": "Default Dark+",
+        "rust-analyzer.checkOnSave": true,
+        "rust-analyzer.check.allTargets": false,
+        "rust-analyzer.check.workspace": true
+      },
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "biomejs.biome",
+        "unifiedjs.vscode-mdx",
+        "skellock.just",
+        "ms-vsliveshare.vsliveshare",
+        "tamasfe.even-better-toml"
+      ]
+    }
+  }
+}
