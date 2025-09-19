@@ -1,6 +1,5 @@
 [tools]
 "cargo:wasm-pack" = "0.13.1"
-rust = { version = "1.89.0", targets = "wasm32-unknown-unknown", components = "clippy,rustfmt" }
 node = "22"
 pnpm = "latest"
 hyperfine = "latest"
