@@ -7,7 +7,6 @@
       "FOLDER_BASENAME": "${localWorkspaceFolderBasename}"
     }
   },
-  "postCreateCommand": "git config devcontainers-theme.show-dirty 1",
   "postStartCommand": "bash /opt/prebuild-artifacts/prebuild.sh",
   "forwardPorts": [7777],
   "customizations": {

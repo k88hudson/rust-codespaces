@@ -24,11 +24,14 @@ RUN chown -R ${USERNAME}:${USERNAME} $ARTIFACT_DIR
 
 # Base dependencies
 ENV DEBIAN_FRONTEND=noninteractive
-# RUN apt-get update && apt-get install -y \
-#     clang curl ca-certificates \
-#     && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    clang curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 USER ${USERNAME}
+
+# Show dirty state in prompt
+RUN git config --global devcontainers-theme.show-dirty 1
 
 # Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
