@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     clang curl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Mise 
+# Mise
 ENV MISE_INSTALL_PATH="/usr/local/bin/mise"
 RUN curl -fsSL https://mise.run | sh && \
   echo 'eval "$(mise activate bash)"' >> ~/.bashrc && \
@@ -22,17 +22,31 @@ RUN curl -fsSL https://mise.run | sh && \
 
 # Install Rust
 USER vscode
+
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
   | sh -s -- -y --default-toolchain "${RUST_VERSION}" && \
   echo '. $HOME/.cargo/env' >> $HOME/.bashrc && \
-  echo '. $HOME/.cargo/env' >> $HOME/.zshrc && \
-  . $HOME/.cargo/env && \
-  rustup component add rustfmt clippy && \
+  echo '. $HOME/.cargo/env' >> $HOME/.zshrc
+ENV PATH="$HOME/.cargo/bin:${PATH}"
+RUN rustup component add rustfmt clippy && \
   rustup target add wasm32-unknown-unknown
 
 # Install dependencies with mise
 COPY mise.toml /workspaces/${FOLDER_BASENAME}/mise.toml
 WORKDIR /workspaces/${FOLDER_BASENAME}
-RUN . $HOME/.cargo/env && \
-  mise trust && \
+RUN mise trust && \
   mise install
+
+# Copy manifests first to leverage Docker layer caching
+WORKDIR /opt/prebuild
+COPY Cargo.toml Cargo.lock ./
+RUN cargo fetch
+
+# Copy the full source and build
+COPY . .
+RUN cargo build --release && \
+  cargo clippy
+
+# Copy to prebuilt-target
+RUN mkdir -p /opt/prebuilt-target && \
+  rsync -a target/ /opt/prebuilt-target/
