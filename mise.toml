@@ -6,3 +6,9 @@ hyperfine = "latest"
 
 [tasks.compile]
 run = "cargo build"
+
+[tasks.'docker:build']
+run = "bash .devcontainer/test-docker-build.sh"
+
+[tasks.'docker:run']
+run = "docker run -it --rm test-devcontainer:latest bash"
