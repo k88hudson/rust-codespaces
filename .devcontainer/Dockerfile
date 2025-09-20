@@ -68,7 +68,8 @@ RUN cargo fetch
 RUN cargo build --release
 RUN cargo clippy
 RUN cp -r target $ARTIFACT_DIR/target
-RUN cp .devcontainer/prebuild.sh $ARTIFACT_DIR/prebuild.sh
+RUN cp .devcontainer/prebuild.sh $ARTIFACT_DIR/prebuild.sh && \
+  chmod +x $ARTIFACT_DIR/prebuild.sh
 RUN rm -rf /home/${USERNAME}/temp-src
 
 # USER root
