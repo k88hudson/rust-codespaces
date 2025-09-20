@@ -12,13 +12,8 @@ ARG RUST_VERSION
 
 ARG ARTIFACT_DIR=/opt/prebuild-artifacts
 
-RUN \
-  if [ $CODESPACES_ENVIRONMENT = "local" ]; then \
-    mkdir -p /workspaces/${FOLDER_BASENAME} && \
-    chown ${USERNAME}:${USERNAME} /workspaces/${FOLDER_BASENAME}; \
-  elif [ ! -d /workspaces/${FOLDER_BASENAME} ]; then \
-    echo "ERROR: /workspaces/${FOLDER_BASENAME} does not exist"; exit 1; \
-  fi
+RUN mkdir -p /workspaces/${FOLDER_BASENAME} && \
+  chown ${USERNAME}:${USERNAME} /workspaces/${FOLDER_BASENAME}
 
 # Ensure .bashrc and .zshrc exist
 RUN touch /home/${USERNAME}/.bashrc /home/${USERNAME}/.zshrc
