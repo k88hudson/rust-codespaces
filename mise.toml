@@ -3,6 +3,7 @@
 node = "22"
 pnpm = "latest"
 hyperfine = "latest"
+sccache = "latest"
 
 [tasks.compile]
 run = "cargo build"
